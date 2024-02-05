@@ -1,4 +1,4 @@
-<button class="btn btn-danger" data-confirm="{{ 'Konfirmasi Hapus|' . 'Anda akan menghapus data <b>' . $label . '</b>' }}" data-confirm-yes="deleteData('{{ $id }}');">
+<button class="btn btn-danger  {{ $size ?? '' }}" data-confirm="{{ 'Konfirmasi Hapus|' . 'Anda akan menghapus data <b>' . $label . '</b>' }}" data-confirm-yes="deleteData('{{ $id }}');">
 	<i class="fas fa-trash"></i>
 	{{ $text ?? '' }}
 </button>
