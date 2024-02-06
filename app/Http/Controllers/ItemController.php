@@ -39,7 +39,7 @@ class ItemController extends Controller
         try {
             Item::create($request->all());
 
-            return redirect()->back()->with('success', 'Data berhasil ditambahkan.');
+            return redirect()->route('dashboard.master.item.index')->with('success', 'Data berhasil ditambahkan.');
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors($th->getMessage())->withInput();
         }

@@ -14,6 +14,7 @@ class StoreItemRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'date' => 'required|date',
             'code' => 'required|unique:items,code',
             'name' => 'required',
             'quantity' => 'required|numeric',
@@ -25,6 +26,8 @@ class StoreItemRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'date.required' => 'Tanggal Masuk harus diisi.',
+            'date.date' => 'Tanggal Masuk tidak valid.',
             'code.required' => 'Kode Barang harus diisi.',
             'code.unique' => 'Kode Barang sudah digunakan.',
             'name.required' => 'Nama Barang harus diisi.',

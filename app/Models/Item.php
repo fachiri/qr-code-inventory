@@ -13,6 +13,7 @@ class Item extends Model
     use HasFactory;
 
     protected $fillable = [
+        'date',
         'code',
         'name',
         'quantity',
