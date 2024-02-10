@@ -13,7 +13,7 @@
 				<h4>Form Tambah Pengguna</h4>
 			</div>
 			<div class="card-body">
-				<form action="{{ route('dashboard.user.store') }}" method="POST">
+				<form action="{{ route('dashboard.user.store', ['role' => request('role')]) }}" method="POST">
 					@csrf
 					<x-form.select name="role" label="Pilih role" class="form-group" :value="request('role')" :options="[
 					    (object) [
@@ -30,6 +30,9 @@
 					    ],
 					]" />
 					<x-form.input name="name" label="Nama Lengkap" class="form-group" />
+					@if (request('role') == 'Admin')
+						<x-form.input name="username" label="Username" class="form-group" />
+					@endif
 					@if (request('role') == 'Lecturer')
 						<x-form.input name="nidn" label="Nomor Induk Dosen Nasional" class="form-group" />
 					@endif

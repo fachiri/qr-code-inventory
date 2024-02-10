@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
 use App\Models\Admin;
 use App\Models\Lecturer;
 use App\Models\Student;
@@ -41,8 +42,33 @@ class UserController extends Controller
     {
         if (!$request->has('role') || !in_array($request->role, ['Admin', 'Lecturer', 'Student'])) {
             return redirect()->route('dashboard.user.create', ['role' => 'Student']);
-        }        
+        }
 
         return view('pages.user.create');
+    }
+
+    public function store(StoreUserRequest $request)
+    {
+        try {
+            if (!$request->has('role') || !in_array($request->role, ['Admin', 'Lecturer', 'Student'])) {
+                return redirect()->route('dashboard.user.create', ['role' => 'Student']);
+            }
+
+            $modelClassName = 'App\Models\\' . $request->role;
+
+            switch ($request->role) {
+                case 'Admin':
+                    # code...
+                    break;
+            }
+
+            $user = User::create([
+                'name' => $request->name
+            ]);
+
+            return redirect()->route('dashboard.master.item.index')->with('success', 'Data berhasil ditambahkan.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors($th->getMessage())->withInput();
+        }
     }
 }
