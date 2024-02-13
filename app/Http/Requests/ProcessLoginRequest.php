@@ -14,7 +14,6 @@ class ProcessLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'role' => 'required',
             'username' => 'required',
             'password' => 'required'
         ];
@@ -23,7 +22,6 @@ class ProcessLoginRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'role.required' => 'Role harus diisi.',
             'username.required' => 'Username harus diisi.',
             'password.required' => 'Password harus diisi.'
         ];

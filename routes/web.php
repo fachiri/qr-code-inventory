@@ -18,8 +18,12 @@ Route::name('auth.')->middleware(['guest'])->group(function () {
 });
 Route::prefix('dashboard')->name('dashboard.')->middleware(['web', 'auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
-    Route::resource('/user', UserController::class)->names('user');
-    Route::prefix('master')->name('master.')->middleware([])->group(function () {
+    Route::middleware(['roles:ADMIN'])->group(function () {
+        Route::resource('/user', UserController::class)->names('user');
+        Route::patch('/user/{uuid}/update-account', [UserController::class, 'update_account'])->name('user.update.account');
+        Route::patch('/user/{uuid}/update-password', [UserController::class, 'update_password'])->name('user.update.password');
+    });
+    Route::prefix('master')->name('master.')->middleware(['roles:ADMIN'])->group(function () {
         Route::resource('/unit', UnitController::class)->names('unit');
         Route::resource('/category', CategoryController::class)->names('category');
         Route::resource('/item', ItemController::class)->names('item');
@@ -30,7 +34,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['web', 'auth'])->gro
         Route::put('/subitem/{uuid}/update', [SubItemController::class, 'update'])->name('subitem.update');
         Route::delete('/subitem/{uuid}/destroy', [SubItemController::class, 'destroy'])->name('subitem.destroy');
     });
-    Route::post('/logout', [AuthController::class, 'logout_process'])->name('logout.process');
+    Route::get('/logout', [AuthController::class, 'logout_process'])->name('logout.process');
 });
 Route::name('public.')->group(function () {
     Route::get('/item/{uuid}/{no}', [ItemController::class, 'detail'])->name('item.detail');

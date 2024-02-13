@@ -16,7 +16,7 @@
 					<x-main.alerts />
 					<form method="POST" action="{{ route('auth.login.process') }}">
 						@csrf
-						<x-form.select name="role" label="Login sebagai" class="form-group" tabindex="1" :options="[
+						{{-- <x-form.select name="role" label="Login sebagai" class="form-group" tabindex="1" :options="[
 						    (object) [
 						        'label' => 'Admin',
 						        'value' => 'Admin'
@@ -29,7 +29,7 @@
 						        'label' => 'Mahasiswa',
 						        'value' => 'Mahasiswa'
 						    ]
-						]" />
+						]" /> --}}
 						<x-form.input name="username" label="Username" class="form-group" autocomplete="username" tabindex="2" />
 						<div class="form-group">
 							<div class="d-block">

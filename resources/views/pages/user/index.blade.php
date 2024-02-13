@@ -50,6 +50,7 @@
 							<tr>
 								<th>#</th>
 								<th>Nama</th>
+								<th>Role</th>
 								<th>Status</th>
 								<th>Aksi</th>
 							</tr>
@@ -58,16 +59,20 @@
 							@foreach ($users as $item)
 								<tr>
 									<td>{{ $loop->iteration }}</td>
-									<td>{{ $item->user->name }}</td>
+									<td>{{ $item->name }}</td>
 									<td>
-										<x-badge value="{{ $item->user->role }}" :options="[
+										<x-badge value="{{ $item->admin ? 'Admin' : ($item->lecturer ? $item->lecturer->jabatan : ($item->student ? 'Mahasiswa' : 'NULL')) }}" :options="[
 										    (object) [
 										        'type' => 'primary',
 										        'value' => 'Admin',
 										    ],
 										    (object) [
 										        'type' => 'secondary',
-										        'value' => 'Dosen',
+										        'value' => App\Constants\JabatanDosen::DOSEN,
+										    ],
+												(object) [
+										        'type' => 'secondary',
+										        'value' => App\Constants\JabatanDosen::KEPALA_LAB,
 										    ],
 										    (object) [
 										        'type' => 'dark',
@@ -76,7 +81,19 @@
 										]" />
 									</td>
 									<td>
-										<a href="{{ route('dashboard.user.show', $item->user->uuid) }}" class="btn btn-secondary">Detail</a>
+										<x-badge value="{{ $item->status }}" :options="[
+										    (object) [
+										        'type' => 'success',
+										        'value' => App\Constants\StatusUser::ACTIVE,
+										    ],
+										    (object) [
+										        'type' => 'danger',
+										        'value' => App\Constants\StatusUser::INACTIVE,
+										    ]
+										]" />
+									</td>
+									<td>
+										<a href="{{ route('dashboard.user.show', $item->uuid) }}" class="btn btn-secondary">Detail</a>
 									</td>
 								</tr>
 							@endforeach
