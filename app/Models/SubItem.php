@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Ramsey\Uuid\Uuid;
 
 class SubItem extends Model
@@ -12,8 +14,9 @@ class SubItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'condition',
+        'number',
+        'is_pinjamable',
+        'entry_date',
         'item_id'
     ];
 
@@ -35,5 +38,16 @@ class SubItem extends Model
     public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class);
+    }
+
+    public function components(): BelongsToMany
+    {
+        return $this->belongsToMany(Component::class)
+            ->withPivot('id', 'condition');
+    }
+
+    public function borrows(): HasMany
+    {
+        return $this->hasMany(Borrow::class, 'sub_item_id');
     }
 }

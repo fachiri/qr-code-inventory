@@ -31,7 +31,7 @@
 	</li>
 	<li class="menu-header">Inventory</li>
 	<li>
-		<a class="nav-link" href="blank.html">
+		<a class="nav-link" href="{{ route('dashboard.borrow.index') }}">
 			<i class="fas fa-sign-in-alt"></i>
 			<span>Peminjaman</span>
 		</a>

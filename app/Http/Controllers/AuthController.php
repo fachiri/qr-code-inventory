@@ -28,6 +28,9 @@ class AuthController extends Controller
         }
 
         if (Auth::attempt($credentials)) {
+            if ($request->has('from')) {
+                return redirect(urldecode($request->from))->withSuccess('Anda berhasil login!');
+            }
             return redirect()
                 ->route('dashboard.index')
                 ->withSuccess('Anda berhasil login!');

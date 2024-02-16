@@ -4,6 +4,9 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+		@env('local')
+		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> {{-- ngrok config --}}
+		@endenv
 		<title>@yield('title') | {{ config('app.name') }}</title>
 		<link rel="stylesheet" href="{{ asset('modules/bootstrap.min.css') }}">
 		<link rel="stylesheet" href="{{ asset('modules/fontawesome.all.min.css') }}">

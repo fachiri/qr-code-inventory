@@ -16,6 +16,9 @@
 					<x-main.alerts />
 					<form method="POST" action="{{ route('auth.login.process') }}">
 						@csrf
+						@if (request('from'))
+							<input type="hidden" name="from" value="{{ request('from') }}">
+						@endif
 						{{-- <x-form.select name="role" label="Login sebagai" class="form-group" tabindex="1" :options="[
 						    (object) [
 						        'label' => 'Admin',

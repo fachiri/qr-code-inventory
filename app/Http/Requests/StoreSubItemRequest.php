@@ -14,8 +14,19 @@ class StoreSubItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'condition' => 'required'
+            'entry_date' => 'required|date',
+            'quantity' => 'required|numeric|min:1',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'entry_date.required' => 'Tanggal Masuk Barang harus diisi.',
+            'entry_date.date' => 'Tanggal Masuk Barang tidak valid.',
+            'quantity.required' => 'Kuantitas Barang harus diisi.',
+            'quantity.numeric' => 'Kuantitas Barang harus angka.',
+            'quantity.min' => 'Kuantitas Barang minimal 1.',
         ];
     }
 }

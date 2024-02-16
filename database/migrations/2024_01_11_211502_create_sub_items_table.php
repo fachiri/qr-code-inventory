@@ -11,8 +11,9 @@ return new class extends Migration
         Schema::create('sub_items', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->string('name', 32);
-            $table->string('condition', 16);
+            $table->integer('number')->unique();
+            $table->tinyInteger('is_pinjamable')->default(0);
+            $table->date('entry_date');
             $table->foreignId('item_id')->constrained('items');
             $table->timestamps();
         });

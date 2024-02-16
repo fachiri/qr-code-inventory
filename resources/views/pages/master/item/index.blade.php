@@ -42,7 +42,7 @@
 									<td>{{ $item->code }}</td>
 									<td>{{ $item->name }}</td>
 									<td>{{ $item->category->name }}</td>
-									<td>{{ $item->quantity }} {{ $item->unit->name }}</td>
+									<td>{{ $item->subitems->count() }} {{ $item->unit->name }}</td>
 									<td>
 										<a href="{{ route('dashboard.master.item.show', $item->uuid) }}" class="btn btn-secondary">Detail</a>
 									</td>

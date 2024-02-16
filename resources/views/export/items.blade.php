@@ -32,10 +32,9 @@
 
 	<body>
 		<table>
-			@for ($i = 0; $i < $item->quantity; $i++)
+			@foreach ($item->subitems as $subitem)
         @php
-          $no = $i + 1;
-          $item_no = str_pad($no, 3, '0', STR_PAD_LEFT)
+          $subitem_no = str_pad($subitem->number, 3, '0', STR_PAD_LEFT)
         @endphp
 				<tr>
 					<td rowspan="2">
@@ -44,14 +43,17 @@
 					<td>042.04.3100.400099.000.KD 2018</td>
 					<td rowspan="2">
 						<div class="qr-code">
-							{!! DNS2D::getBarcodeHTML(URL::to('/') . '/item/' . $item->uuid . '/' . $item_no, 'QRCODE', 2.5, 2.5) !!}
+							{!! DNS2D::getBarcodeHTML(URL::to('/') . '/barang/' . $subitem->uuid, 'QRCODE', 2.5, 2.5) !!}
 						</div>
 					</td>
 				</tr>
 				<tr>
-					<td>{{ $item->code }} {{ $item_no }}</td>
+					<td>
+						{{ $item->code }}
+						<span style="margin-left: 7.5px;">{{ $subitem_no }}</span>
+					</td>
 				</tr>
-			@endfor
+			@endforeach
 		</table>
 	</body>
 

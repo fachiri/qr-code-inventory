@@ -14,8 +14,8 @@ class UpdateSubItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'condition' => 'required'
+            'entry_date' => 'required|date',
+            'is_pinjamable' => 'required|in:0,1'
         ];
     }
 }

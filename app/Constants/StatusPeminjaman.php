@@ -4,6 +4,8 @@ namespace App\Constants;
 
 class StatusPeminjaman
 {
-  public const SEDANG_DIPINJAM = 'Sedang Dipinjam';
-  public const DAPAT_DIPINJAM = 'Dapat Dipinjam';
+  public const PENDING = 'Pending';
+  public const ACTIVE = 'Dipinjam';
+  public const REJECTED = 'Ditolak';
+  public const RETURNED = 'Dikembalikan';
 }

@@ -15,7 +15,7 @@
 			<div class="card-body">
 				<form action="{{ route('dashboard.master.item.store') }}" method="POST">
 					@csrf
-					<x-form.input type="date" name="date" label="Tanggal Masuk" placeholder="Tanggal Masuk Barang" />
+					<x-form.input type="date" name="entry_date" label="Tanggal Masuk" placeholder="Tanggal Masuk Barang" />
 					<x-form.select name="code" label="Kodefikasi" :options="$codefications->map(function ($codefication) {
 					    return (object) ['label' => $codefication[0] . '.' . $codefication[1] . '.' . $codefication[2] . '.' . $codefication[3] . '.' . $codefication[4] . ' | ' . $codefication[6], 'value' => $codefication[0] . '.' . $codefication[1] . '.' . $codefication[2] . '.' . $codefication[3] . '.' . $codefication[4]];
 					})" />

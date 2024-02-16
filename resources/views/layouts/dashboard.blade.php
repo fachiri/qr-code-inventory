@@ -4,7 +4,9 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+		@env('local')
 		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> {{-- ngrok config --}}
+		@endenv
 		<title>@yield('title') | {{ config('app.name') }}</title>
 		<link rel="stylesheet" href="{{ asset('modules/bootstrap.min.css') }}">
 		<link rel="stylesheet" href="{{ asset('modules/fontawesome.all.min.css') }}">
@@ -24,7 +26,7 @@
 		</script>
 	</head>
 
-	<body>
+	<body class="{{ (new \Jenssegers\Agent\Agent())->isMobile() ? 'sidebar-gone' : '' }}">
 		<div id="app">
 			<div class="main-wrapper main-wrapper-1">
 				<div class="navbar-bg"></div>
@@ -179,6 +181,9 @@
 					</div>
 				</footer>
 			</div>
+
+			{{-- Modal --}}
+			@stack('modals')
 		</div>
 
 		<script src="{{ asset('modules/jquery.min.js') }}"></script>

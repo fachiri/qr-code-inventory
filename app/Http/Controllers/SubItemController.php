@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BorrowItemRequest;
 use App\Http\Requests\StoreSubItemRequest;
 use App\Http\Requests\UpdateSubItemRequest;
+use App\Models\Borrow;
+use App\Models\History;
 use App\Models\Item;
 use App\Models\SubItem;
+use Illuminate\Support\Facades\DB;
 
 class SubItemController extends Controller
 {
@@ -21,16 +25,25 @@ class SubItemController extends Controller
         return view('pages.master.subitem.create', compact('item'));
     }
 
-    public function store(StoreSubItemRequest $request, $itemUuid)
+    public function store(StoreSubItemRequest $request)
     {
         try {
-            $item = Item::where('uuid', $itemUuid)->first();
+            $item = Item::findOrFail($request->item_id);
+            $subitem = SubItem::where('item_id', $item->id)->latest()->first();
 
-            SubItem::create([
-                'name' => $request->name,
-                'condition' => $request->condition,
-                'item_id' => $item->id,
-            ]);
+            for ($i = 0; $i < $request->quantity; $i++) {
+                $createdSubitem = SubItem::create([
+                    'number' => $i + 1 + $subitem->number,
+                    'entry_date' => $request->entry_date,
+                    'item_id' => $item->id
+                ]);
+                foreach ($item->components as $component) {
+                    DB::table('component_sub_item')->insert([
+                        'sub_item_id' => $createdSubitem->id,
+                        'component_id' => $component->id
+                    ]);
+                }
+            }
 
             return redirect()->back()->with('success', 'Data berhasil ditambahkan.');
         } catch (\Throwable $th) {
@@ -38,36 +51,72 @@ class SubItemController extends Controller
         }
     }
 
-    public function show(SubItem $subItem)
+    public function show(SubItem $subitem)
     {
-        //
+        return view('pages.master.subitem.show', compact('subitem'));
     }
 
-    public function edit($subItemUuid)
+    public function edit(SubItem $subitem)
     {
-        $subItem = SubItem::where('uuid', $subItemUuid)->first();;
-        $item = $subItem->item;
-        
-        return view('pages.master.subitem.edit', compact('item', 'subItem'));
+        return view('pages.master.subitem.edit', compact('subitem'));
     }
 
-    public function update(UpdateSubItemRequest $request, $subItemUuid)
+    public function update(UpdateSubItemRequest $request, SubItem $subitem)
     {
         try {
-            $subItem = SubItem::where('uuid', $subItemUuid)->first();
+            $subitem->entry_date = $request->entry_date;
+            $subitem->is_pinjamable = $request->is_pinjamable;
+            $subitem->update();
 
-            $subItem->name = $request->name;
-            $subItem->condition = $request->condition;
-            $subItem->save();
-
-            return redirect()->back()->with('success', 'Data berhasil diedit.');
+            return redirect()->back()->with('success', 'Data berhasil diperbarui.');
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors($th->getMessage())->withInput();
         }
     }
 
-    public function destroy(SubItem $subItem)
+    public function destroy(SubItem $subitem)
     {
-        //
+        try {
+            $subitem->delete();
+
+            return redirect()->back()->with('success', 'Data berhasil dihapus.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors($th->getMessage())->withInput();
+        }
+    }
+
+    public function detail($uuid)
+    {
+        $subitem = SubItem::where('uuid', $uuid)->first();
+
+        return view('pages.public.subitem', compact('subitem'));
+    }
+
+    public function borrow(BorrowItemRequest $request, $uuid)
+    {
+        try {
+            $subitem = SubItem::where('uuid', $uuid)->first();
+
+            if ($subitem->is_pinjamable === 0) {
+                return redirect()
+                    ->back()
+                    ->withErrors('<b>' . $subitem->item->name . '</b> dengan kode <b>' . $subitem->item->code . ' ' . str_pad($subitem->number, 3, '0', STR_PAD_LEFT) . '</b> tidak dapat dipinjam.')
+                    ->withInput();
+            }
+
+            $borrow = Borrow::create([
+                'desc' => $request->desc,
+                'sub_item_id' => $subitem->id
+            ]);
+
+            History::create([
+                'borrow_id' => $borrow->id,
+                'user_id' => auth()->user()->id
+            ]);
+
+            return redirect()->route('dashboard.borrow.show', $borrow->uuid)->with('success', 'Peminjaman telah diajukan.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors($th->getMessage())->withInput();
+        }
     }
 }

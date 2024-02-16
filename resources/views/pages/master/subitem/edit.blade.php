@@ -1,35 +1,32 @@
-@php
-	$_GOOD = App\Constants\SubItemCondition::GOOD;
-	$_DAMAGED = App\Constants\SubItemCondition::DAMAGED;
-@endphp
 @extends('layouts.dashboard', [
     'breadcrumbs' => [
         'Dashboard' => route('dashboard.index'),
         'Master Barang' => route('dashboard.master.item.index'),
-        'Detail ' . $item->name => route('dashboard.master.item.show', $item->uuid),
-        'Edit ' . $subItem->name => null
+        $subitem->item->code => route('dashboard.master.item.show', $subitem->item->uuid),
+        str_pad($subitem->number, 3, '0', STR_PAD_LEFT) => route('dashboard.master.subitem.show', $subitem->uuid),
+        'Edit' => null,
     ],
 ])
-@section('title', 'Edit Sub Barang | ' . $subItem->name)
+@section('title', 'Edit ' . $subitem->item->name . ' - ' . str_pad($subitem->number, 3, '0', STR_PAD_LEFT))
 @section('content')
 	<div class="section-body">
 		<div class="card">
 			<div class="card-header d-flex justify-content-between">
-				<h4>Form Edit {{ $subItem->name }}</h4>
+				<h4>Form Edit Barang</h4>
 			</div>
 			<div class="card-body">
-				<form action="{{ route('dashboard.master.subitem.update', $subItem->uuid) }}" method="POST">
+				<form action="{{ route('dashboard.master.subitem.update', $subitem->uuid) }}" method="POST">
 					@csrf
 					@method('PUT')
-					<x-form.input name="name" label="Nama Sub Barang" placeholder="Isi Nama Sub Barang" :value="$subItem->name" />
-					<x-form.select name="condition" label="Kondisi" :value="$subItem->condition" :options="[
+					<x-form.input type="date" name="entry_date" label="Tanggal Masuk" placeholder="Tanggal Masuk Barang" :value="$subitem->entry_date" />
+					<x-form.select name="is_pinjamable" label="Dapat Dipinjam" :value="$subitem->is_pinjamable" :options="[
 					    (object) [
-					        'label' => $_GOOD,
-					        'value' => $_GOOD
+					        'label' => 'Ya',
+					        'value' => 1,
 					    ],
 					    (object) [
-					        'label' => $_DAMAGED,
-					        'value' => $_DAMAGED
+					        'label' => 'Tidak',
+					        'value' => 0,
 					    ],
 					]" />
 					<div class="pt-2">

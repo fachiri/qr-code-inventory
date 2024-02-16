@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\SubItemController;
@@ -28,14 +30,15 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['web', 'auth'])->gro
         Route::resource('/category', CategoryController::class)->names('category');
         Route::resource('/item', ItemController::class)->names('item');
         Route::get('/item/{uuid}/print', [ItemController::class, 'print'])->name('item.print');
-        Route::get('/subitem/{uuid}/create', [SubItemController::class, 'create'])->name('subitem.create');
-        Route::get('/subitem/{uuid}/edit', [SubItemController::class, 'edit'])->name('subitem.edit');
-        Route::post('/subitem/{uuid}/store', [SubItemController::class, 'store'])->name('subitem.store');
-        Route::put('/subitem/{uuid}/update', [SubItemController::class, 'update'])->name('subitem.update');
-        Route::delete('/subitem/{uuid}/destroy', [SubItemController::class, 'destroy'])->name('subitem.destroy');
+        Route::resource('/subitem', SubItemController::class)->names('subitem');
+        Route::get('/subitem/{uuid}/print', [SubItemController::class, 'print'])->name('subitem.print');
+        Route::resource('/component', ComponentController::class)->names('component');
+        Route::patch('/component/{id}/subitem', [ComponentController::class, 'update_component_subitem'])->name('component.update.subitem');
     });
+    Route::post('/subitem/{uuid}/borrow', [SubItemController::class, 'borrow'])->name('subitem.borrow');
+    Route::resource('/borrow', BorrowController::class)->names('borrow');
     Route::get('/logout', [AuthController::class, 'logout_process'])->name('logout.process');
 });
 Route::name('public.')->group(function () {
-    Route::get('/item/{uuid}/{no}', [ItemController::class, 'detail'])->name('item.detail');
+    Route::get('/barang/{uuid}', [SubItemController::class, 'detail'])->name('subitem.detail');
 });

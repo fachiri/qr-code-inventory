@@ -13,10 +13,8 @@ class Item extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date',
         'code',
         'name',
-        'quantity',
         'unit_id',
         'category_id',
     ];
@@ -49,5 +47,10 @@ class Item extends Model
     public function subitems(): HasMany
     {
         return $this->hasMany(SubItem::class);
+    }
+
+    public function components(): HasMany
+    {
+        return $this->hasMany(Component::class);
     }
 }
