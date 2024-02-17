@@ -64,8 +64,8 @@ class User extends Authenticatable
         return $this->hasOne(Student::class);
     }
 
-    public function histories(): HasMany
+    public function borrows(): HasMany
     {
-        return $this->hasMany(History::class);
+        return $this->hasMany(Borrow::class);
     }
 }

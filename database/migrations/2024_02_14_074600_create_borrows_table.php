@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->text('desc');
+            $table->foreignId('user_id')->constrained('users');
             $table->foreignId('sub_item_id')->constrained('sub_items');
             $table->timestamps();
         });

@@ -14,7 +14,7 @@ return new class extends Migration
             $table->uuid('uuid')->unique();
             $table->string('name', 32);
             $table->string('username', 16)->unique();
-            $table->string('status', 16)->default(StatusUser::INACTIVE);
+            $table->string('status', 16)->default(StatusUser::ACTIVE);
             $table->string('email', 16)->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

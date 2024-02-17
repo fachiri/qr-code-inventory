@@ -5,6 +5,7 @@ use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\SubItemController;
 use App\Http\Controllers\UnitController;
@@ -36,7 +37,14 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['web', 'auth'])->gro
         Route::patch('/component/{id}/subitem', [ComponentController::class, 'update_component_subitem'])->name('component.update.subitem');
     });
     Route::post('/subitem/{uuid}/borrow', [SubItemController::class, 'borrow'])->name('subitem.borrow');
-    Route::resource('/borrow', BorrowController::class)->names('borrow');
+    Route::get('/borrow', [BorrowController::class, 'index'])->name('borrow.index');
+    Route::post('/borrow/create', [BorrowController::class, 'create'])->middleware(['roles:LECTURER,STUDENT'])->name('borrow.create');
+    Route::get('/borrow/{borrow}', [BorrowController::class, 'show'])->middleware(['roles:ADMIN,LECTURER,STUDENT,CURRENT'])->name('borrow.show');
+    Route::post('/borrow/{borrow}/approve', [BorrowController::class, 'approve'])->middleware(['roles:ADMIN'])->name('borrow.approve');
+    Route::post('/borrow/{borrow}/reject', [BorrowController::class, 'reject'])->middleware(['roles:ADMIN'])->name('borrow.reject');
+    Route::post('/borrow/{borrow}/return', [BorrowController::class, 'return'])->middleware(['roles:ADMIN'])->name('borrow.return');
+    Route::post('/borrow/{borrow}/cancel', [BorrowController::class, 'cancel'])->middleware(['roles:LECTURER,STUDENT,CURRENT'])->name('borrow.cancel');
+    // Route::resource('/history', HistoryController::class)->names('history');
     Route::get('/logout', [AuthController::class, 'logout_process'])->name('logout.process');
 });
 Route::name('public.')->group(function () {

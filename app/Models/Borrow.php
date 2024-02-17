@@ -14,6 +14,7 @@ class Borrow extends Model
 
     protected $fillable = [
         'desc',
+        'user_id',
         'sub_item_id'
     ];
 
@@ -32,6 +33,11 @@ class Borrow extends Model
         });
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+    
     public function subitem(): BelongsTo
     {
         return $this->belongsTo(SubItem::class, 'sub_item_id');

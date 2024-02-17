@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\StatusPeminjaman;
 use App\Http\Requests\BorrowItemRequest;
 use App\Http\Requests\StoreSubItemRequest;
 use App\Http\Requests\UpdateSubItemRequest;
@@ -104,14 +105,21 @@ class SubItemController extends Controller
                     ->withInput();
             }
 
+            if ($subitem->borrows()->latest()->first() && $subitem->borrows()->latest()->first()->histories()->latest()->first()->status === StatusPeminjaman::APPROVED) {
+                return redirect()
+                    ->back()
+                    ->withErrors('<b>' . $subitem->item->name . '</b> dengan kode <b>' . $subitem->item->code . ' ' . str_pad($subitem->number, 3, '0', STR_PAD_LEFT) . '</b> sedang dipinjam.')
+                    ->withInput();
+            }
+
             $borrow = Borrow::create([
                 'desc' => $request->desc,
+                'user_id' => auth()->user()->id,
                 'sub_item_id' => $subitem->id
             ]);
 
             History::create([
-                'borrow_id' => $borrow->id,
-                'user_id' => auth()->user()->id
+                'borrow_id' => $borrow->id
             ]);
 
             return redirect()->route('dashboard.borrow.show', $borrow->uuid)->with('success', 'Peminjaman telah diajukan.');

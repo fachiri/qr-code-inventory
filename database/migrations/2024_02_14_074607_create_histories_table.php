@@ -14,7 +14,6 @@ return new class extends Migration
             $table->uuid('uuid')->unique();
             $table->foreignId('borrow_id')->constrained('borrows');
             $table->foreignId('admin_id')->nullable()->constrained('admins');
-            $table->foreignId('user_id')->constrained('users');
             $table->string('status', 16)->default(StatusPeminjaman::PENDING);
             $table->timestamps();
         });

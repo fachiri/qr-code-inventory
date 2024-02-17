@@ -1,3 +1,11 @@
+@php
+	$currentStatus = $borrow->histories()->latest()->first()->status;
+	$_PENDING = \App\Constants\StatusPeminjaman::PENDING;
+	$_APPROVED = \App\Constants\StatusPeminjaman::APPROVED;
+	$_REJECTED = \App\Constants\StatusPeminjaman::REJECTED;
+	$_CANCELED = \App\Constants\StatusPeminjaman::CANCELED;
+	$_RETURNED = \App\Constants\StatusPeminjaman::RETURNED;
+@endphp
 @extends('layouts.dashboard', [
     'breadcrumbs' => [
         'Dashboard' => route('dashboard.index'),
@@ -17,10 +25,29 @@
 			<div class="card-header d-flex justify-content-between border-bottom">
 				<h4>Rincian</h4>
 				<div class="d-flex justify-content-end gap-2">
-					<a href="{{ route('dashboard.borrow.edit', $borrow->uuid) }}" class="btn btn-warning btn-sm mr-2">
-						<i class="fas fa-edit"></i>
-						Edit
-					</a>
+					@if ($currentStatus == $_PENDING)
+						@if (auth()->user()->admin)
+							<x-form.confirm :action="route('dashboard.borrow.reject', $borrow->uuid)" id="tolak-peminjaman" class="btn-danger" label="Tolak Peminjaman">
+								<i class="fas fa-times"></i>
+								Tolak
+							</x-form.confirm>
+							<x-form.confirm :action="route('dashboard.borrow.approve', $borrow->uuid)" id="setujui-peminjaman" class="btn-success ml-2" label="Setujui Peminjaman">
+								<i class="fas fa-times"></i>
+								Setujui
+							</x-form.confirm>
+						@else
+							<x-form.confirm :action="route('dashboard.borrow.cancel', $borrow->uuid)" id="batalkan-peminjaman" class="btn-danger" label="Batalkan Peminjaman">
+								<i class="fas fa-times"></i>
+								Batalkan
+							</x-form.confirm>
+						@endif
+					@endif
+					@if ($currentStatus == $_APPROVED && auth()->user()->admin)
+						<x-form.confirm :action="route('dashboard.borrow.return', $borrow->uuid)" id="barang-dikembalikan" class="btn-secondary" label="Barang telah dikembalikan">
+							<i class="fas fa-undo"></i>
+							Dikembalikan
+						</x-form.confirm>
+					@endif
 				</div>
 			</div>
 			<div class="card-body">
@@ -33,12 +60,14 @@
 						<th>Waktu</th>
 						<td>{{ $borrow->histories[0]->created_at->toTimeString() }}</td>
 					</tr>
-					<tr>
-						<th>Peminjam</th>
-						<td>
-							<a href="{{ route('dashboard.user.show', $borrow->histories[0]->user->uuid) }}">{{ $borrow->histories[0]->user->name }}</a>
-						</td>
-					</tr>
+					@if (auth()->user()->admin)
+						<tr>
+							<th>Peminjam</th>
+							<td>
+								<a href="{{ route('dashboard.user.show', $borrow->user->uuid) }}">{{ $borrow->user->name }}</a>
+							</td>
+						</tr>
+					@endif
 					<tr>
 						<th>Barang</th>
 						<td>
@@ -52,22 +81,26 @@
 					<tr>
 						<th>Status</th>
 						<td>
-							<x-badge value="{{ $borrow->histories[0]->status }}" :options="[
+							<x-badge value="{{ $currentStatus }}" :options="[
 							    (object) [
 							        'type' => 'primary',
-							        'value' => App\Constants\StatusPeminjaman::PENDING,
+							        'value' => $_PENDING,
 							    ],
 							    (object) [
 							        'type' => 'success',
-							        'value' => App\Constants\StatusPeminjaman::ACTIVE,
+							        'value' => $_APPROVED,
 							    ],
 							    (object) [
 							        'type' => 'danger',
-							        'value' => App\Constants\StatusPeminjaman::REJECTED,
+							        'value' => $_REJECTED,
+							    ],
+							    (object) [
+							        'type' => 'danger',
+							        'value' => $_CANCELED,
 							    ],
 							    (object) [
 							        'type' => 'secondary',
-							        'value' => App\Constants\StatusPeminjaman::RETURNED,
+							        'value' => $_RETURNED,
 							    ],
 							]" />
 						</td>
@@ -80,7 +113,45 @@
 				<h4>Riwayat</h4>
 			</div>
 			<div class="card-body">
-				bagian riwayat
+				<div class="activities">
+					@foreach ($borrow->histories as $history)
+						<div class="activity">
+							<x-icon.activity :value="$history->status" />
+							<div class="activity-detail">
+								<div class="mb-2">
+									<span class="text-job text-primary">{{ $history->created_at->diffForHumans() }}</span>
+									<span class="bullet"></span>
+									<span class="text-job">{{ $history->status }}</span>
+								</div>
+								@if (auth()->user()->admin)
+									@if ($history->status == $_PENDING)
+										<p>Permintaan telah diajukan. Selanjutnya menunggu persetujuan admin.</p>
+									@elseif($history->status == $_APPROVED)
+										<p>Permintaan telah disetujui oleh <a href="{{ route('dashboard.user.show', $history->admin->user->uuid) }}">{{ $history->admin->user->name }}</a>. Pengguna atas nama <a href="{{ route('dashboard.user.show', $history->borrow->user->uuid) }}">{{ $history->borrow->user->name }}</a> akan mengambil barang yang dipinjam.</p>
+									@elseif($history->status == $_REJECTED)
+										<p>Permintaan telah ditolak oleh <a href="{{ route('dashboard.user.show', $history->admin->user->uuid) }}">{{ $history->admin->user->name }}</a>.</p>
+									@elseif($history->status == $_RETURNED)
+										<p>Barang yang dipinjam telah dikembalikan.</p>
+									@elseif($history->status == $_CANCELED)
+										<p><a href="{{ route('dashboard.user.show', $history->borrow->user->uuid) }}">{{ $history->borrow->user->name }}</a> telah membatalkan peminjaman.</p>
+									@endif
+								@else
+									@if ($history->status == $_PENDING)
+										<p>Permintaan anda telah diajukan. Selanjutnya menunggu persetujuan admin.</p>
+									@elseif($history->status == $_APPROVED)
+										<p>Permintaan anda telah disetujui oleh <a href="{{ route('dashboard.user.show', $history->admin->user->uuid) }}">{{ $history->admin->user->name }}</a>. Silakan ambil barang yang Anda pinjam.</p>
+									@elseif($history->status == $_REJECTED)
+										<p>Permintaan anda telah ditolak oleh <a href="{{ route('dashboard.user.show', $history->admin->user->uuid) }}">{{ $history->admin->user->name }}</a>. Silakan hubungi admin untuk informasi lebih lanjut.</p>
+									@elseif($history->status == $_RETURNED)
+										<p>Barang yang Anda pinjam telah dikembalikan. Terima kasih telah menggunakan layanan kami.</p>
+									@elseif($history->status == $_CANCELED)
+										<p>Anda telah membatalkan peminjaman.</p>
+									@endif
+								@endif
+							</div>
+						</div>
+					@endforeach
+				</div>
 			</div>
 		</div>
 	</div>

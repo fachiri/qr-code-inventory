@@ -1,9 +1,9 @@
-<button class="{{ $class ?? '' }}" data-confirm="{{ 'Konfirmasi|' . $label }}" data-confirm-yes="confirmData('{{ $id }}');">
+<button class="btn {{ $class ?? 'btn-primary' }}" data-confirm="{{ 'Konfirmasi|' . $label }}" data-confirm-yes="confirmData('{{ $id }}');">
 	{{ $slot }}
 </button>
-<form action="{{ $action }}" method="{{ $method == 'GET' ? 'GET' : 'POST' }}" class="d-none" id="formConfirm{{ $id }}">
+<form action="{{ $action }}" method="{{ $method ?? 'POST' }}" class="d-none" id="formConfirm{{ $id }}">
 	@csrf
-	@method($method)
+	@method($method ?? 'POST')
 </form>
 @push('scripts')
 	<script>

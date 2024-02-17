@@ -14,7 +14,6 @@ class History extends Model
     protected $fillable = [
         'borrow_id',
         'admin_id',
-        'user_id',
         'status'
     ];
 
@@ -41,10 +40,5 @@ class History extends Model
     public function admin(): BelongsTo
     {
         return $this->belongsTo(Admin::class);
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
     }
 }

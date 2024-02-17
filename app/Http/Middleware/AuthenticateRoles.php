@@ -17,13 +17,22 @@ class AuthenticateRoles
         if ($user->admin) {
             $role = 'ADMIN';
         } elseif ($user->lecturer) {
-            if ($user->lecturer == JabatanDosen::KEPALA_LAB) {
+            if ($user->lecturer->jabatan == JabatanDosen::KEPALA_LAB) {
                 $role = 'MANAGER';
-            } elseif ($user->lecturer == JabatanDosen::DOSEN) {
+            } elseif ($user->lecturer->jabatan == JabatanDosen::DOSEN) {
                 $role = 'LECTURER';
             }
         } elseif ($user->student) {
             $role = 'STUDENT';
+        }
+
+        if (in_array('CURRENT', $roles)) {
+            $isAdminAllowed = in_array('ADMIN', $roles) && isset($user->admin);
+            if ($request->borrow && $user->id != $request->borrow->user_id && !$isAdminAllowed) {
+                return redirect()
+                    ->back()
+                    ->with('error', 'Akses tidak sah. User tidak diizinkan.');
+            }
         }
 
         if (Auth::check() && in_array($role, $roles)) {

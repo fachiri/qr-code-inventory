@@ -35,7 +35,9 @@
 								<tr>
 									<th>#</th>
 									<th>Tanggal</th>
-									<th>Peminjam</th>
+									@if (auth()->user()->admin)
+										<th>Peminjam</th>
+									@endif
 									<th>Barang</th>
 									<th>Status</th>
 									<th>Aksi</th>
@@ -46,25 +48,31 @@
 									<tr>
 										<td>{{ $loop->iteration }}</td>
 										<td>{{ $borrow->histories[0]->created_at->toDateString() }}</td>
-										<td>
-											<a href="{{ route('dashboard.user.show', $borrow->histories[0]->user->uuid) }}">{{ $borrow->histories[0]->user->name }}</a>
-										</td>
+										@if (auth()->user()->admin)
+											<td>
+												<a href="{{ route('dashboard.user.show', $borrow->user->uuid) }}">{{ $borrow->user->name }}</a>
+											</td>
+										@endif
 										<td>
 											<a href="{{ route('dashboard.master.subitem.show', $borrow->subitem->uuid) }}">{{ $borrow->subitem->item->name }} - {{ str_pad($borrow->subitem->number, 3, '0', STR_PAD_LEFT) }}</a>
 										</td>
 										<td>
-											<x-badge value="{{ $borrow->histories[0]->status }}" :options="[
+											<x-badge value="{{ $borrow->histories()->latest()->first()->status }}" :options="[
 											    (object) [
 											        'type' => 'primary',
 											        'value' => App\Constants\StatusPeminjaman::PENDING,
 											    ],
 											    (object) [
 											        'type' => 'success',
-											        'value' => App\Constants\StatusPeminjaman::ACTIVE,
+											        'value' => App\Constants\StatusPeminjaman::APPROVED,
 											    ],
 											    (object) [
 											        'type' => 'danger',
 											        'value' => App\Constants\StatusPeminjaman::REJECTED,
+											    ],
+											    (object) [
+											        'type' => 'danger',
+											        'value' => App\Constants\StatusPeminjaman::CANCELED,
 											    ],
 											    (object) [
 											        'type' => 'secondary',
@@ -106,7 +114,7 @@
 							<tr>
 								<th>Peminjam</th>
 								<td>
-									<a href="{{ route('dashboard.user.show', $borrow->histories[0]->user->uuid) }}">{{ $borrow->histories[0]->user->name }}</a>
+									<a href="{{ route('dashboard.user.show', $borrow->user->uuid) }}">{{ $borrow->user->name }}</a>
 								</td>
 							</tr>
 							<tr>
@@ -122,14 +130,14 @@
 							<tr>
 								<th>Status</th>
 								<td>
-									<x-badge value="{{ $borrow->histories[0]->status }}" :options="[
+									<x-badge value="{{ $borrow->histories()->latest()->first()->status }}" :options="[
 									    (object) [
 									        'type' => 'primary',
 									        'value' => App\Constants\StatusPeminjaman::PENDING,
 									    ],
 									    (object) [
 									        'type' => 'success',
-									        'value' => App\Constants\StatusPeminjaman::ACTIVE,
+									        'value' => App\Constants\StatusPeminjaman::APPROVED,
 									    ],
 									    (object) [
 									        'type' => 'danger',
