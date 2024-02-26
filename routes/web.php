@@ -38,7 +38,8 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['web', 'auth'])->gro
     });
     Route::post('/subitem/{uuid}/borrow', [SubItemController::class, 'borrow'])->name('subitem.borrow');
     Route::get('/borrow', [BorrowController::class, 'index'])->name('borrow.index');
-    Route::post('/borrow/create', [BorrowController::class, 'create'])->middleware(['roles:LECTURER,STUDENT'])->name('borrow.create');
+    Route::get('/borrow/create', [BorrowController::class, 'create'])->middleware(['roles:LECTURER,STUDENT'])->name('borrow.create');
+    Route::post('/borrow/store', [BorrowController::class, 'store'])->middleware(['roles:LECTURER,STUDENT'])->name('borrow.store');
     Route::get('/borrow/{borrow}', [BorrowController::class, 'show'])->middleware(['roles:ADMIN,LECTURER,STUDENT,CURRENT'])->name('borrow.show');
     Route::post('/borrow/{borrow}/approve', [BorrowController::class, 'approve'])->middleware(['roles:ADMIN'])->name('borrow.approve');
     Route::post('/borrow/{borrow}/reject', [BorrowController::class, 'reject'])->middleware(['roles:ADMIN'])->name('borrow.reject');
