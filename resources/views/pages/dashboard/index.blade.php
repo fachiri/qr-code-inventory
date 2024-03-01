@@ -127,7 +127,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="pr-4 col-12">
+				<div class="col-6">
 					<div class="card">
 						<div class="card-header text-dark shadow-lg">
 							<h5>Kategori Barang</h5>
