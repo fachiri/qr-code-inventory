@@ -140,7 +140,7 @@
 						</li>
 					</ul>
 				</nav>
-				<div class="main-sidebar sidebar-style-2">
+				<div class="main-sidebar shadow-lg sidebar-style-2">
 					<aside id="sidebar-wrapper">
 						<div class="sidebar-brand">
 							<a href="index.html"><img src="{{asset('assets/UNG.png')}}" width="40px" class="mr-2" alt="">{{ config('app.name') }}</a>

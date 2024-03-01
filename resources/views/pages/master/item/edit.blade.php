@@ -9,7 +9,7 @@
 @section('title', 'Edit ' . $item->name)
 @section('content')
 	<div class="section-body">
-		<div class="card mb-4 shadow-sm">
+		<div class="card mb-4 shadow-lg text-dark">
 			<div class="card-header d-flex justify-content-between">
 				<h5>Edit Barang</h5>
 			</div>

@@ -30,7 +30,7 @@
 	<body>
 		<div id="app">
 			<section class="section">
-				<div class="container mt-5">
+				<div class="container mt-4">
 					@yield('content')
 				</div>
 			</section>

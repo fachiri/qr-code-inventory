@@ -12,8 +12,8 @@
 	<link rel="stylesheet" href="{{ asset('modules/datatables/select.bootstrap4.min.css') }}">
 @endpush
 @section('content')
-	<div class="section-body">
-		<div class="card mb-4 border shadow-sm">
+	<div class="section-body text-dark">
+		<div class="card mb-4 border shadow-lg ">
 			<div class="card-header d-flex justify-content-between">
 				<h4>Detail Barang</h4>
 				<div class="d-flex justify-content-end gap-2">
@@ -49,7 +49,7 @@
 				</table>
 			</div>
 		</div>
-		<div class="card mb-4 border shadow-sm">
+		<div class="card mb-4 border shadow-lg">
 			<div class="card-header d-flex justify-content-between">
 				<h4>Daftar {{ $item->name }}</h4>
 				<div class="d-flex justify-content-end gap-2">
@@ -105,7 +105,7 @@
 		</div>
 		<div class="row">
 			<div class="col-8">
-				<div class="card mb-4 border shadow-sm" id="component">
+				<div class="card mb-4 border shadow-lg" id="component">
 					<div class="card-header d-flex justify-content-between">
 						<h4>Komponen {{ $item->name }}</h4>
 					</div>
@@ -124,9 +124,9 @@
 										<td>{{ $loop->iteration }}</td>
 										<td>{{ $componentItem->name }}</td>
 										<td>
-											<a href="{{ route('dashboard.master.component.show', $componentItem->uuid) }}" class="btn btn-primary btn-sm">
+											<!-- <a href="{{ route('dashboard.master.component.show', $componentItem->uuid) }}" class="btn btn-primary btn-sm">
 												<i class="fas fa-list"></i>
-											</a>
+											</a> -->
 											<button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editKomponenModal{{ $componentItem->uuid }}">
 												<i class="fas fa-edit"></i>
 											</button>
@@ -140,7 +140,7 @@
 				</div>
 			</div>
 			<div class="col-4">
-				<div class="card mb-4 border shadow-sm">
+				<div class="card mb-4 border shadow-lg">
 					<div class="card-header d-flex justify-content-between">
 						<h4>Tambah Komponen</h4>
 					</div>

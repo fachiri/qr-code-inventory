@@ -12,7 +12,7 @@
 @endpush
 @section('content')
 	<div class="section-body">
-		<div class="card">
+		<div class="card shadow-lg text-dark">
 			<div class="card-header d-flex justify-content-between">
 				<h4>Tabel Kategori</h4>
 				<div class="d-flex justify-content-between">

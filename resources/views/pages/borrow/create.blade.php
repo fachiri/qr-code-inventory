@@ -8,7 +8,7 @@
 @section('title', 'Buat Peminjaman')
 @section('content')
 	<div class="section-body">
-		<div class="card">
+		<div class="card shadow-lg text-dark">
 			<div class="card-header d-flex justify-content-between">
 				<h4>Form Buat Peminjaman</h4>
 			</div>

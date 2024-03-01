@@ -13,7 +13,7 @@
 							Not Found
 						@endif
 					</div>
-					<div class="card card-primary">
+					<div class="card shadow-lg text-dark card-primary">
 						@if (isset($subitem))
 							<div class="card-header">
 								<h4>{{ $subitem->item->name }}</h4>
@@ -63,7 +63,7 @@
 						</div>
 					</div>
 					<div class="simple-footer">
-						Copyright &copy; Lab Informatika UNG 2024
+						Copyright &copy; Sistem Inventory Jurusan 2024
 					</div>
 				</div>
 			</div>

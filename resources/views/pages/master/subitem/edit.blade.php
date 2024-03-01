@@ -10,7 +10,7 @@
 @section('title', 'Edit ' . $subitem->item->name . ' - ' . str_pad($subitem->number, 3, '0', STR_PAD_LEFT))
 @section('content')
 	<div class="section-body">
-		<div class="card">
+		<div class="card shadow-lg text-dark">
 			<div class="card-header d-flex justify-content-between">
 				<h4>Form Edit Barang</h4>
 			</div>

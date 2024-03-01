@@ -8,7 +8,7 @@
 @section('title', 'Detail Pengguna')
 @section('content')
 	<div class="section-body">
-		<div class="card mb-4 shadow-sm">
+		<div class="card mb-4 shadow-lg text-dark">
 			<div class="card-header d-flex justify-content-between">
 				<h5>Informasi</h5>
 				<div class="d-flex justify-content-end gap-2">

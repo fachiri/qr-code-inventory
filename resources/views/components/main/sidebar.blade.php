@@ -1,4 +1,4 @@
-<ul class="sidebar-menu">
+<ul class="sidebar-menu ">
 	<li class="menu-header">Dashboard</li>
 	<li>
 		<a class="nav-link" href="{{ route('dashboard.index') }}">

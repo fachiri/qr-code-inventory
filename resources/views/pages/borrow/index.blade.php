@@ -15,7 +15,7 @@
 @endpush
 @section('content')
 	<div class="section-body">
-		<div class="card mb-4 border shadow-sm">
+		<div class="card mb-4 border shadow-lg text-dark">
 			<div class="card-header d-flex justify-content-between">
 				<h4>Daftar Peminjaman</h4>
 				@if (!$isMobile)

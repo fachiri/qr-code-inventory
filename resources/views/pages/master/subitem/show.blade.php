@@ -9,7 +9,7 @@
 @section('title', 'Detail ' . $subitem->item->name . ' - ' . str_pad($subitem->number, 3, '0', STR_PAD_LEFT))
 @section('content')
 	<div class="section-body">
-		<div class="card mb-4 shadow-sm">
+		<div class="card mb-4 shadow-lg text-dark">
 			<div class="card-header d-flex justify-content-between">
 				<h4>Detail Barang</h4>
 				<div class="d-flex justify-content-end gap-2">
@@ -54,7 +54,7 @@
 				</table>
 			</div>
 		</div>
-		<div class="card mb-4 shadow-sm">
+		<div class="card mb-4 shadow-lg text-dark">
 			<div class="card-header d-flex justify-content-between">
 				<h4>Komponen</h4>
 			</div>

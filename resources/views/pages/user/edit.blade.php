@@ -9,7 +9,7 @@
 @section('title', 'Edit Pengguna')
 @section('content')
 	<div class="section-body">
-		<div class="card mb-4 shadow-sm">
+		<div class="card mb-4 shadow-lg text-dark">
 			<div class="card-header d-flex justify-content-between">
 				<h5>Personal</h5>
 			</div>
@@ -40,7 +40,7 @@
 				</form>
 			</div>
 		</div>
-		<div class="card mb-4 shadow-sm">
+		<div class="card mb-4 shadow-lg text-dark">
 			<div class="card-header d-flex justify-content-between">
 				<h5>Akun</h5>
 			</div>
@@ -66,7 +66,7 @@
 				</form>
 			</div>
 		</div>
-		<div class="card mb-4 shadow-sm">
+		<div class="card mb-4 shadow-lg text-dark">
 			<div class="card-header d-flex justify-content-between">
 				<h5>Ganti Password</h5>
 			</div>

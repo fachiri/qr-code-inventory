@@ -12,7 +12,7 @@
 @endpush
 @section('content')
 	<div class="section-body">
-		<div class="card">
+		<div class="card shadow-lg text-dark">
 			<div class="card-header d-flex justify-content-between">
 				<h4>Tabel Unit</h4>
 				<div class="d-flex justify-content-between">
@@ -27,7 +27,7 @@
 				</div>
 			</div>
 			<div class="card-body">
-				<div class="table-responsive">
+				<div class="table-responsive text-dark">
 					<table class="table-striped table" id="datatable">
 						<thead>
 							<tr>

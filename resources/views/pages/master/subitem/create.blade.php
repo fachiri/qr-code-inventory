@@ -13,7 +13,7 @@
 @section('title', 'Tambah Sub Barang')
 @section('content')
 	<div class="section-body">
-		<div class="card">
+		<div class="card shadow-lg text-dark">
 			<div class="card-header d-flex justify-content-between">
 				<h4>Form Sub Barang ({{ $item->name }})</h4>
 			</div>

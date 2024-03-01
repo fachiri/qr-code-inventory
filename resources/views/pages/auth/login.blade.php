@@ -8,7 +8,7 @@
 				<h3>QR Code Inventory</h3>
 			</div>
 
-			<div class="card card-primary">
+			<div class="card card-primary shadow-lg text-dark">
 				<div class="card-header">
 					<h4>Login</h4>
 				</div>
@@ -66,9 +66,9 @@
 			{{-- <div class="text-muted mt-1 text-center">
 				Don't have an account? <a href="auth-register.html">Create One</a>
 			</div> --}}
-			<div class="simple-footer">
+			<!-- <div class="simple-footer">
 				<x-main.footer />
-			</div>
+			</div> -->
 		</div>
 	</div>
 @endsection
