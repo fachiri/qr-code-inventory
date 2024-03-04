@@ -1,8 +1,6 @@
 @extends('layouts.dashboard', [
 	'breadcrumbs' => [
-		'Dashboard' => route('dashboard.index'),
-		'Master' => null,
-		'Unit' => null,
+		'Dashboard' => route('dashboard.index')
 	],
 ])
 @section('title', 'Dashboard')

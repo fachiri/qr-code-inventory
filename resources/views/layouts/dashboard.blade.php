@@ -143,10 +143,10 @@
 				<div class="main-sidebar shadow-lg sidebar-style-2">
 					<aside id="sidebar-wrapper">
 						<div class="sidebar-brand">
-							<a href="index.html"><img src="{{asset('assets/UNG.png')}}" width="40px" class="mr-2" alt="">{{ config('app.name') }}</a>
+							<a href="{{ route('dashboard.index') }}"><img src="{{asset('assets/UNG.png')}}" width="40px" class="mr-2" alt="">{{ config('app.name') }}</a>
 						</div>
 						<div class="sidebar-brand sidebar-brand-sm">
-							<a href="index.html">{{ substr(config('app.name'), 0, 2) }}</a>
+							<a href="{{ route('dashboard.index') }}"><img src="{{asset('assets/UNG.png')}}" width="32px"></a>
 						</div>
 						<x-main.sidebar />
 					</aside>

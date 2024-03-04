@@ -1,7 +1,7 @@
 @extends('layouts.dashboard', [
     'breadcrumbs' => [
         'Dashboard' => route('dashboard.index'),
-        'Master Unit' => null,
+        'Master Satuan' => null,
     ],
 ])
 @section('title', 'Satuan')
@@ -14,7 +14,7 @@
 	<div class="section-body">
 		<div class="card shadow-lg text-dark">
 			<div class="card-header d-flex justify-content-between">
-				<h4>Tabel Unit</h4>
+				<h4>Tabel Satuan</h4>
 				<div class="d-flex justify-content-between">
 					<a href="{{ route('dashboard.master.unit.create') }}" class="btn btn-primary mr-2">
 						<i class="fas fa-plus"></i>

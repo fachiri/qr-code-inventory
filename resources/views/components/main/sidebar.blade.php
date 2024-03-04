@@ -25,7 +25,7 @@
 	</li>
 	<li>
 		<a class="nav-link" href="{{ route('dashboard.master.item.index') }}">
-			<i class="fas fa-square"></i>
+			<i class="fas fa-boxes"></i>
 			<span>Barang</span>
 		</a>
 	</li>

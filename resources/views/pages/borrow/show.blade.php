@@ -32,7 +32,7 @@
 								Tolak
 							</x-form.confirm>
 							<x-form.confirm :action="route('dashboard.borrow.approve', $borrow->uuid)" id="setujui-peminjaman" class="btn-success ml-2" label="Setujui Peminjaman">
-								<i class="fas fa-times"></i>
+								<i class="fas fa-check"></i>
 								Setujui
 							</x-form.confirm>
 						@else
